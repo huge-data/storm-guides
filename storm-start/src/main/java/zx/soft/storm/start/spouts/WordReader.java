@@ -12,6 +12,12 @@ import backtype.storm.topology.base.BaseRichSpout;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
 
+/**
+ * 读取每行数据
+ * 
+ * @author wgybzb
+ *
+ */
 public class WordReader extends BaseRichSpout {
 
 	private static final long serialVersionUID = -7579781317450034331L;
@@ -27,6 +33,7 @@ public class WordReader extends BaseRichSpout {
 
 	@Override
 	public void close() {
+		//
 	}
 
 	@Override
@@ -35,31 +42,29 @@ public class WordReader extends BaseRichSpout {
 	}
 
 	/**
-	 * The only thing that the methods will do It is emit each 
-	 * file line
+	 * 将输入文件按行输出 
 	 */
 	@Override
 	public void nextTuple() {
 		/**
-		 * The nextuple it is called forever, so if we have been readed the file
-		 * we will wait and then return
+		 * 该函数一直会被调用，如果已经读取过文件的话，将会等待并且返回
 		 */
 		if (completed) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				//Do nothing
+				//
 			}
 			return;
 		}
 		String str;
-		//Open the reader
+		// 打开reader
 		BufferedReader reader = new BufferedReader(fileReader);
 		try {
-			//Read all lines
+			// 读取所有行的数据
 			while ((str = reader.readLine()) != null) {
 				/**
-				 * By each line emmit a new value with the line as a their
+				 * 每行作为输出
 				 */
 				this.collector.emit(new Values(str), str);
 			}
@@ -71,7 +76,7 @@ public class WordReader extends BaseRichSpout {
 	}
 
 	/**
-	 * We will create the file and get the collector object
+	 * 创建文件，并获取collector对象
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -85,10 +90,11 @@ public class WordReader extends BaseRichSpout {
 	}
 
 	/**
-	 * Declare the output field "word"
+	 * 显示设置输出域为"word"
 	 */
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("line"));
 	}
+
 }

@@ -9,6 +9,12 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Tuple;
 
+/**
+ * 词频统计
+ * 
+ * @author wgybzb
+ *
+ */
 public class WordCounter extends BaseBasicBolt {
 
 	private static final long serialVersionUID = 7440534307545138182L;
@@ -18,8 +24,7 @@ public class WordCounter extends BaseBasicBolt {
 	Map<String, Integer> counters;
 
 	/**
-	 * At the end of the spout (when the cluster is shutdown
-	 * We will show the word counters
+	 * 在Spout结束的时候打印出词频（当集群关闭的时候）
 	 */
 	@Override
 	public void cleanup() {
@@ -30,7 +35,7 @@ public class WordCounter extends BaseBasicBolt {
 	}
 
 	/**
-	 * On create 
+	 * 初始化
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -42,14 +47,14 @@ public class WordCounter extends BaseBasicBolt {
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
+		//
 	}
 
 	@Override
 	public void execute(Tuple input, BasicOutputCollector collector) {
 		String str = input.getString(0);
 		/**
-		 * If the word dosn't exist in the map we will create
-		 * this, if not We will add 1 
+		 * 新的词语，词频为1
 		 */
 		if (!counters.containsKey(str)) {
 			counters.put(str, 1);
@@ -58,4 +63,5 @@ public class WordCounter extends BaseBasicBolt {
 			counters.put(str, c);
 		}
 	}
+
 }

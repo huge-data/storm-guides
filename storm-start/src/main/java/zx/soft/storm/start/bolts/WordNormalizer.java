@@ -7,6 +7,12 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
+/**
+ * 对每行文本进行标准化（分词、去除空格、转换成小写）
+ * 
+ * @author wgybzb
+ *
+ */
 public class WordNormalizer extends BaseBasicBolt {
 
 	private static final long serialVersionUID = 7516460439435045984L;
@@ -17,11 +23,7 @@ public class WordNormalizer extends BaseBasicBolt {
 	}
 
 	/**
-	 * The bolt will receive the line from the
-	 * words file and process it to Normalize this line
-	 * 
-	 * The normalize will be put the words in lower case
-	 * and split the line to get all words in this 
+	 * 标准化处理：分词、去除空格、小写化
 	 */
 	@Override
 	public void execute(Tuple input, BasicOutputCollector collector) {
@@ -37,7 +39,7 @@ public class WordNormalizer extends BaseBasicBolt {
 	}
 
 	/**
-	 * The bolt will only emit the field "word" 
+	 * 显示设置输出域为"word" 
 	 */
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
