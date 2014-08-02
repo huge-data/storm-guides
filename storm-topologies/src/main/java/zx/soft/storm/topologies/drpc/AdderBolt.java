@@ -10,6 +10,11 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
+/**
+ * 用于对数值型加法表达式进行计算
+ * 
+ * @author wgybzb
+ */
 @SuppressWarnings("hiding")
 public class AdderBolt<String> extends BaseBasicBolt {
 
@@ -22,7 +27,7 @@ public class AdderBolt<String> extends BaseBasicBolt {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(Tuple input, BasicOutputCollector collector) {
-		// 解析表达式
+		// 解析+法表达式
 		String[] numbers = (String[]) input.getString(1).split("\\+");
 		Integer added = 0;
 		try {
