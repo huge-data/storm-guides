@@ -6,9 +6,9 @@ import backtype.storm.LocalDRPC;
 import backtype.storm.drpc.LinearDRPCTopologyBuilder;
 
 /**
- * DRPC example
- *  
- * @author Storm-Book
+ * DRPC示例
+ * 
+ * @author wgybzb
  *
  */
 public class DRPCTopologyMain {
@@ -16,26 +16,26 @@ public class DRPCTopologyMain {
 	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) {
 
-		//Create the local drpc client/server
+		// Create the local drpc client/server
 		LocalDRPC drpc = new LocalDRPC();
 
-		//Create the drpc topology
+		// Create the drpc topology
 		LinearDRPCTopologyBuilder builder = new LinearDRPCTopologyBuilder("add");
 		builder.addBolt(new AdderBolt(), 2);
 
 		Config conf = new Config();
 		conf.setDebug(true);
 
-		//Create cluster and submit the topology
+		// Create cluster and submit the topology
 		LocalCluster cluster = new LocalCluster();
 		cluster.submitTopology("drpc-adder-topology", conf, builder.createLocalTopology(drpc));
 
-		//Test the topology
+		// Test the topology
 		String result = drpc.execute("add", "1+-1");
 		checkResult(result, 0);
 		result = drpc.execute("add", "1+1+5+10");
 
-		//Finish and shutdown
+		// Finish and shutdown
 		checkResult(result, 17);
 		cluster.shutdown();
 		drpc.shutdown();
@@ -54,4 +54,5 @@ public class DRPCTopologyMain {
 		}
 		return false;
 	}
+
 }

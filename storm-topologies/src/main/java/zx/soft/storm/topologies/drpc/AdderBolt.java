@@ -22,7 +22,7 @@ public class AdderBolt<String> extends BaseBasicBolt {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(Tuple input, BasicOutputCollector collector) {
-		//Parse the add expression
+		// 解析表达式
 		String[] numbers = (String[]) input.getString(1).split("\\+");
 		Integer added = 0;
 		try {
@@ -30,14 +30,14 @@ public class AdderBolt<String> extends BaseBasicBolt {
 				throw new InvalidParameterException("Should be at least 2 numbers");
 			}
 			for (String num : numbers) {
-				//Add each member
+				// 添加每个元素
 				added += Integer.parseInt((java.lang.String) num);
 			}
 		} catch (Exception e) {
-			//On error emit null
+			// 错误是输出null
 			collector.emit(new Values(input.getValue(0), NULL));
 		}
-		//Emit the result
+		// 输出结果
 		collector.emit(new Values(input.getValue(0), added));
 	}
 
@@ -45,4 +45,5 @@ public class AdderBolt<String> extends BaseBasicBolt {
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("id", "result"));
 	}
+
 }

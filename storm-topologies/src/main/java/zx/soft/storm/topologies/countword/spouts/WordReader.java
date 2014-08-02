@@ -36,29 +36,19 @@ public class WordReader extends BaseRichSpout {
 		System.out.println("FAIL:" + msgId);
 	}
 
-	/**
-	 * The only thing that the methods will do It is emit each 
-	 * file line
-	 */
 	@Override
 	public void nextTuple() {
-		/**
-		 * The nextuple it is called forever, so if we have been readed the file
-		 * we will wait and then return
-		 */
 		if (completed) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				//Do nothing
+				//
 			}
 			return;
 		}
 		String str;
-		//Open the reader
 		BufferedReader reader = new BufferedReader(fileReader);
 		try {
-			//Read all lines
 			while ((str = reader.readLine()) != null) {
 				/**
 				 * By each line emmit a new value with the line as a their
@@ -73,7 +63,7 @@ public class WordReader extends BaseRichSpout {
 	}
 
 	/**
-	 * We will create the file and get the collector object
+	 * 初始化
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -88,10 +78,11 @@ public class WordReader extends BaseRichSpout {
 	}
 
 	/**
-	 * Declare the output field "word"
+	 * 设置输出域"word"
 	 */
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("line"));
 	}
+
 }

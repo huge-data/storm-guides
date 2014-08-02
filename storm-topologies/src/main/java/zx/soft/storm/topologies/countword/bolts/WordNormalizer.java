@@ -19,15 +19,9 @@ public class WordNormalizer extends BaseRichBolt {
 
 	@Override
 	public void cleanup() {
+		//
 	}
 
-	/**
-	 * The bolt will receive the line from the
-	 * words file and process it to Normalize this line
-	 * 
-	 * The normalize will be put the words in lower case
-	 * and split the line to get all words in this 
-	 */
 	@Override
 	public void execute(Tuple input) {
 		String sentence = input.getString(0);
@@ -51,7 +45,7 @@ public class WordNormalizer extends BaseRichBolt {
 	}
 
 	/**
-	 * The bolt will only emit the field "word" 
+	 * 设置输出域为"word" 
 	 */
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {

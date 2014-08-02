@@ -18,10 +18,6 @@ public class WordCounter extends BaseRichBolt {
 	Map<String, Integer> counters;
 	private OutputCollector collector;
 
-	/**
-	 * At the end of the spout (when the cluster is shutdown
-	 * We will show the word counters
-	 */
 	@Override
 	public void cleanup() {
 		System.out.println("-- Word Counter [" + name + "-" + id + "] --");
@@ -30,23 +26,16 @@ public class WordCounter extends BaseRichBolt {
 		}
 	}
 
-	/**
-	 * On each word We will count
-	 */
 	@Override
 	public void execute(Tuple input) {
 		String str = null;
 		try {
 			str = input.getStringByField("word");
 		} catch (IllegalArgumentException e) {
-			//Do nothing
+			//
 		}
 
 		if (str != null) {
-			/**
-			 * If the word dosn't exist in the map we will create
-			 * this, if not We will add 1 
-			 */
 			if (!counters.containsKey(str)) {
 				counters.put(str, 1);
 			} else {
@@ -60,7 +49,7 @@ public class WordCounter extends BaseRichBolt {
 					counters.clear();
 			}
 		}
-		//Set the tuple as Acknowledge
+		// 设置tuple已收到通知
 		collector.ack(input);
 	}
 
@@ -78,5 +67,7 @@ public class WordCounter extends BaseRichBolt {
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
+		//
 	}
+
 }
