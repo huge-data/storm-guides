@@ -18,6 +18,8 @@ public class TopologyMain {
 		builder.setSpout("word-reader", new WordReader());
 		builder.setSpout("signals-spout", new SignalsSpout());
 		builder.setBolt("word-normalizer", new WordNormalizer()).shuffleGrouping("word-reader");
+		// 自定义Grouping
+		//		builder.setBolt("word-normalizer", new WordNormalizer()).customGrouping("word-reader", new ModuleGrouping());
 
 		builder.setBolt("word-counter", new WordCounter(), 2).fieldsGrouping("word-normalizer", new Fields("word"))
 				.allGrouping("signals-spout", "signals");
