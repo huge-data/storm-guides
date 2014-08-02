@@ -23,6 +23,8 @@ public class TopologyMain {
 
 		builder.setBolt("word-counter", new WordCounter(), 2).fieldsGrouping("word-normalizer", new Fields("word"))
 				.allGrouping("signals-spout", "signals");
+		// 通过直接方式来gourping
+		//		builder.setBolt("word-counter", new WordNormalizerDirect(), 2).directGrouping("word-normalizer");
 
 		// Configuration
 		Config conf = new Config();
@@ -36,5 +38,4 @@ public class TopologyMain {
 		Thread.sleep(5000);
 		cluster.shutdown();
 	}
-
 }
