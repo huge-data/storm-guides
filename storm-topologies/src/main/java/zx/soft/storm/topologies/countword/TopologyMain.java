@@ -37,5 +37,12 @@ public class TopologyMain {
 		cluster.submitTopology("Count-Word-Toplogy-With-Refresh-Cache", conf, builder.createTopology());
 		Thread.sleep(5000);
 		cluster.shutdown();
+		// 集群运行
+		//		try {
+		//			StormSubmitter.submitTopology("Count-Word-Toplogy-With-Refresh-Cache", conf, builder.createTopology());
+		//		} catch (AlreadyAliveException | InvalidTopologyException e) {
+		//			throw new RuntimeException(e);
+		//		}
 	}
+
 }

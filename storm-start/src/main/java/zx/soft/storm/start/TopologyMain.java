@@ -35,6 +35,12 @@ public class TopologyMain {
 		cluster.submitTopology("Getting-Started-Toplogie", conf, builder.createTopology());
 		Thread.sleep(1000);
 		cluster.shutdown();
+		// 集群运行
+		//		try {
+		//			StormSubmitter.submitTopology("Getting-Started-Toplogie", conf, builder.createTopology());
+		//		} catch (AlreadyAliveException | InvalidTopologyException e) {
+		//			throw new RuntimeException(e);
+		//		}
 	}
 
 }
