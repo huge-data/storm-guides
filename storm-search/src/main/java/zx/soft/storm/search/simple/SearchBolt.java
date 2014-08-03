@@ -21,7 +21,9 @@ import backtype.storm.tuple.Values;
 public class SearchBolt implements IRichBolt {
 
 	private static final long serialVersionUID = 1L;
+
 	Logger log;
+
 	OutputCollector collector;
 	@SuppressWarnings("rawtypes")
 	Map stormConf;
@@ -98,6 +100,7 @@ public class SearchBolt implements IRichBolt {
 
 	@Override
 	public void cleanup() {
+		//
 	}
 
 	@Override

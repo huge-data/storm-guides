@@ -33,7 +33,7 @@ public class TransactionsSpouts extends BaseRichSpout {
 
 	@Override
 	public void close() {
-
+		//
 	}
 
 	@Override

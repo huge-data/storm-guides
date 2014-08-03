@@ -10,6 +10,7 @@ public class Item implements Serializable {
 	public double price;
 
 	public Item() {
+		//
 	}
 
 	public Item(long id, String title, double price) {

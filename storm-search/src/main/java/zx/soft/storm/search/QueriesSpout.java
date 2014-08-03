@@ -23,7 +23,6 @@ public class QueriesSpout extends AbstractClientSpout {
 		}
 
 		super.open(conf, context, collector);
-
 	}
 
 	@Override

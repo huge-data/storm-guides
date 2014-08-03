@@ -3,11 +3,24 @@ package zx.soft.storm.app.utils;
 import java.io.Serializable;
 
 public class Product implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
 	public long id;
 	public String title;
 	public double price;
 	public String category;
+
+	public Product() {
+		//
+	}
+
+	public Product(long id, String title, double price, String category) {
+		this.id = id;
+		this.title = title;
+		this.price = price;
+		this.category = category;
+	}
 
 	public long getId() {
 		return id;
@@ -41,16 +54,6 @@ public class Product implements Serializable {
 		this.category = category;
 	}
 
-	public Product() {
-	}
-
-	public Product(long id, String title, double price, String category) {
-		this.id = id;
-		this.title = title;
-		this.price = price;
-		this.category = category;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		Product other = (Product) obj;
@@ -66,4 +69,5 @@ public class Product implements Serializable {
 	public String toString() {
 		return "id:" + id + " title: " + title + " price:" + price;
 	}
+
 }

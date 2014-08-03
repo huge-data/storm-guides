@@ -25,7 +25,6 @@ public class RandomFailureBolt extends BaseRichBolt {
 		} else {
 			collector.fail(input);
 		}
-
 	}
 
 	@SuppressWarnings("rawtypes")

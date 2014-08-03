@@ -18,7 +18,7 @@ public class TwitterSumarizeHashtags extends BaseBasicBolt {
 
 	private static final long serialVersionUID = 4383583173399233755L;
 
-	Map<String, Integer> hashtags = new HashMap<String, Integer>();
+	Map<String, Integer> hashtags = new HashMap<>();
 
 	@Override
 	public void cleanup() {
@@ -66,6 +66,7 @@ public class TwitterSumarizeHashtags extends BaseBasicBolt {
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
+		//
 	}
 
 }

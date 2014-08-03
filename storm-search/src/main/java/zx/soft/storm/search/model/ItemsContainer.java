@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 public class ItemsContainer {
 
 	Logger log = Logger.getLogger(this.getClass());
+
 	HashMap<String, HashSet<Item>> index;
 	HashMap<Item, Item> myItems;
 	Set<Item> emptySet = Collections.emptySet();

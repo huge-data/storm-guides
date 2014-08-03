@@ -36,7 +36,7 @@ public class UserHistoryBolt extends BaseRichBolt {
 		this.jedis = new Jedis(host, port);
 	}
 
-	HashMap<String, Set<String>> usersNavigatedItems = new HashMap<String, Set<String>>();
+	HashMap<String, Set<String>> usersNavigatedItems = new HashMap<>();
 
 	@Override
 	public void execute(Tuple input) {
@@ -89,4 +89,5 @@ public class UserHistoryBolt extends BaseRichBolt {
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("product", "categ"));
 	}
+
 }

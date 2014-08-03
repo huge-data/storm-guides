@@ -100,6 +100,7 @@ public class SearchBolt implements IRichBolt {
 
 	@Override
 	public void cleanup() {
+		//
 	}
 
 	@Override

@@ -16,7 +16,9 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
 
 public class UsersNavigationSpout extends BaseRichSpout {
+
 	private static final long serialVersionUID = 1L;
+
 	Jedis jedis;
 	String host;
 	int port;

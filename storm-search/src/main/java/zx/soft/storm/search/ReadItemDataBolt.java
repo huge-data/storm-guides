@@ -26,7 +26,9 @@ import backtype.storm.tuple.Values;
 public class ReadItemDataBolt implements IRichBolt {
 
 	private static final long serialVersionUID = 1L;
+
 	Logger log;
+
 	OutputCollector collector;
 	@SuppressWarnings("rawtypes")
 	Map stormConf;
@@ -109,6 +111,7 @@ public class ReadItemDataBolt implements IRichBolt {
 
 	@Override
 	public void cleanup() {
+		//
 	}
 
 	@Override

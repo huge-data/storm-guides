@@ -27,7 +27,7 @@ public class MergeBolt implements IRichBolt {
 	TopologyContext context;
 	int totalShards;
 	OutputCollector collector;
-	HashMap<String, Merger> inCourse = new HashMap<String, Merger>();
+	HashMap<String, Merger> inCourse = new HashMap<>();
 
 	public static class Merger {
 
@@ -99,6 +99,7 @@ public class MergeBolt implements IRichBolt {
 		public Object getOrigin() {
 			return origin;
 		}
+
 	}
 
 	@Override

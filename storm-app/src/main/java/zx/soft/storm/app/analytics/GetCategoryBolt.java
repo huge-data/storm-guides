@@ -55,4 +55,5 @@ public class GetCategoryBolt extends BaseBasicBolt {
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("user", "product", "categ"));
 	}
+
 }

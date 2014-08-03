@@ -24,6 +24,7 @@ import backtype.storm.tuple.Values;
 public abstract class AbstractClientSpout implements IRichSpout {
 
 	private static final long serialVersionUID = 1L;
+
 	public static final int TIMEOUT = 1000;
 	transient Logger log;
 	transient HttpClient httpclient;

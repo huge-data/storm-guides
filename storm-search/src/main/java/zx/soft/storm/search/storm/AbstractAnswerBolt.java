@@ -19,6 +19,7 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 public abstract class AbstractAnswerBolt implements IRichBolt {
 
 	private static final long serialVersionUID = 1L;
+
 	protected transient Logger log;
 	transient HttpClient client;
 

@@ -7,6 +7,7 @@ import org.json.simple.JSONValue;
 import redis.clients.jedis.Jedis;
 
 public class ProductsReader {
+
 	Logger log;
 
 	String redisHost;

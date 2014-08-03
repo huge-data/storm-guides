@@ -15,6 +15,7 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Tuple;
 
 public class NewsNotifierBolt extends BaseRichBolt {
+
 	private static final long serialVersionUID = 1L;
 
 	String webserver;
@@ -54,4 +55,5 @@ public class NewsNotifierBolt extends BaseRichBolt {
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		// This bolt does not emmit any tuple
 	}
+
 }

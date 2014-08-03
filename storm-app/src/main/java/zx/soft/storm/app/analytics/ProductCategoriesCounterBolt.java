@@ -20,10 +20,10 @@ public class ProductCategoriesCounterBolt extends BaseRichBolt {
 	private Jedis jedis;
 
 	// ITEM:CATEGORY -> COUNT
-	HashMap<String, Integer> counter = new HashMap<String, Integer>();
+	HashMap<String, Integer> counter = new HashMap<>();
 
 	// ITEM:CATEGORY -> COUNT
-	HashMap<String, Integer> pendingToSave = new HashMap<String, Integer>();
+	HashMap<String, Integer> pendingToSave = new HashMap<>();
 
 	Timer timer;
 	OutputCollector collector;
@@ -124,4 +124,5 @@ public class ProductCategoriesCounterBolt extends BaseRichBolt {
 		super.cleanup();
 		timer.cancel();
 	}
+
 }
