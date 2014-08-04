@@ -1,21 +1,10 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package storm.starter;
+package jvm.storm.starter;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
@@ -32,142 +21,169 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * This is a basic example of a transactional topology. It keeps a count of the number of tuples seen so far in a
  * database. The source of data and the databases are mocked out as in memory maps for demonstration purposes. This
  * class is defined in depth on the wiki at https://github.com/nathanmarz/storm/wiki/Transactional-topologies
  */
+@SuppressWarnings("deprecation")
 public class TransactionalGlobalCount {
-  public static final int PARTITION_TAKE_PER_BATCH = 3;
-  public static final Map<Integer, List<List<Object>>> DATA = new HashMap<Integer, List<List<Object>>>() {{
-    put(0, new ArrayList<List<Object>>() {{
-      add(new Values("cat"));
-      add(new Values("dog"));
-      add(new Values("chicken"));
-      add(new Values("cat"));
-      add(new Values("dog"));
-      add(new Values("apple"));
-    }});
-    put(1, new ArrayList<List<Object>>() {{
-      add(new Values("cat"));
-      add(new Values("dog"));
-      add(new Values("apple"));
-      add(new Values("banana"));
-    }});
-    put(2, new ArrayList<List<Object>>() {{
-      add(new Values("cat"));
-      add(new Values("cat"));
-      add(new Values("cat"));
-      add(new Values("cat"));
-      add(new Values("cat"));
-      add(new Values("dog"));
-      add(new Values("dog"));
-      add(new Values("dog"));
-      add(new Values("dog"));
-    }});
-  }};
 
-  public static class Value {
-    int count = 0;
-    BigInteger txid;
-  }
+	public static final int PARTITION_TAKE_PER_BATCH = 3;
 
-  public static Map<String, Value> DATABASE = new HashMap<String, Value>();
-  public static final String GLOBAL_COUNT_KEY = "GLOBAL-COUNT";
+	public static final Map<Integer, List<List<Object>>> DATA = new HashMap<Integer, List<List<Object>>>() {
 
-  public static class BatchCount extends BaseBatchBolt {
-    Object _id;
-    BatchOutputCollector _collector;
+		private static final long serialVersionUID = 3468290698508010648L;
 
-    int _count = 0;
+		{
+			put(0, new ArrayList<List<Object>>() {
 
-    @Override
-    public void prepare(Map conf, TopologyContext context, BatchOutputCollector collector, Object id) {
-      _collector = collector;
-      _id = id;
-    }
+				private static final long serialVersionUID = 7093107604628652962L;
 
-    @Override
-    public void execute(Tuple tuple) {
-      _count++;
-    }
+				{
+					add(new Values("cat"));
+					add(new Values("dog"));
+					add(new Values("chicken"));
+					add(new Values("cat"));
+					add(new Values("dog"));
+					add(new Values("apple"));
+				}
+			});
+			put(1, new ArrayList<List<Object>>() {
 
-    @Override
-    public void finishBatch() {
-      _collector.emit(new Values(_id, _count));
-    }
+				private static final long serialVersionUID = -7952128485977901792L;
 
-    @Override
-    public void declareOutputFields(OutputFieldsDeclarer declarer) {
-      declarer.declare(new Fields("id", "count"));
-    }
-  }
+				{
+					add(new Values("cat"));
+					add(new Values("dog"));
+					add(new Values("apple"));
+					add(new Values("banana"));
+				}
+			});
+			put(2, new ArrayList<List<Object>>() {
 
-  public static class UpdateGlobalCount extends BaseTransactionalBolt implements ICommitter {
-    TransactionAttempt _attempt;
-    BatchOutputCollector _collector;
+				private static final long serialVersionUID = -4309899750085173289L;
 
-    int _sum = 0;
+				{
+					add(new Values("cat"));
+					add(new Values("cat"));
+					add(new Values("cat"));
+					add(new Values("cat"));
+					add(new Values("cat"));
+					add(new Values("dog"));
+					add(new Values("dog"));
+					add(new Values("dog"));
+					add(new Values("dog"));
+				}
+			});
+		}
+	};
 
-    @Override
-    public void prepare(Map conf, TopologyContext context, BatchOutputCollector collector, TransactionAttempt attempt) {
-      _collector = collector;
-      _attempt = attempt;
-    }
+	public static class Value {
+		int count = 0;
+		BigInteger txid;
+	}
 
-    @Override
-    public void execute(Tuple tuple) {
-      _sum += tuple.getInteger(1);
-    }
+	public static Map<String, Value> DATABASE = new HashMap<String, Value>();
+	public static final String GLOBAL_COUNT_KEY = "GLOBAL-COUNT";
 
-    @Override
-    public void finishBatch() {
-      Value val = DATABASE.get(GLOBAL_COUNT_KEY);
-      Value newval;
-      if (val == null || !val.txid.equals(_attempt.getTransactionId())) {
-        newval = new Value();
-        newval.txid = _attempt.getTransactionId();
-        if (val == null) {
-          newval.count = _sum;
-        }
-        else {
-          newval.count = _sum + val.count;
-        }
-        DATABASE.put(GLOBAL_COUNT_KEY, newval);
-      }
-      else {
-        newval = val;
-      }
-      _collector.emit(new Values(_attempt, newval.count));
-    }
+	public static class BatchCount extends BaseBatchBolt<Object> {
 
-    @Override
-    public void declareOutputFields(OutputFieldsDeclarer declarer) {
-      declarer.declare(new Fields("id", "sum"));
-    }
-  }
+		private static final long serialVersionUID = -6428246294237533623L;
 
-  public static void main(String[] args) throws Exception {
-    MemoryTransactionalSpout spout = new MemoryTransactionalSpout(DATA, new Fields("word"), PARTITION_TAKE_PER_BATCH);
-    TransactionalTopologyBuilder builder = new TransactionalTopologyBuilder("global-count", "spout", spout, 3);
-    builder.setBolt("partial-count", new BatchCount(), 5).noneGrouping("spout");
-    builder.setBolt("sum", new UpdateGlobalCount()).globalGrouping("partial-count");
+		Object _id;
+		BatchOutputCollector _collector;
 
-    LocalCluster cluster = new LocalCluster();
+		int _count = 0;
 
-    Config config = new Config();
-    config.setDebug(true);
-    config.setMaxSpoutPending(3);
+		@SuppressWarnings("rawtypes")
+		@Override
+		public void prepare(Map conf, TopologyContext context, BatchOutputCollector collector, Object id) {
+			_collector = collector;
+			_id = id;
+		}
 
-    cluster.submitTopology("global-count-topology", config, builder.buildTopology());
+		@Override
+		public void execute(Tuple tuple) {
+			_count++;
+		}
 
-    Thread.sleep(3000);
-    cluster.shutdown();
-  }
+		@Override
+		public void finishBatch() {
+			_collector.emit(new Values(_id, _count));
+		}
+
+		@Override
+		public void declareOutputFields(OutputFieldsDeclarer declarer) {
+			declarer.declare(new Fields("id", "count"));
+		}
+	}
+
+	public static class UpdateGlobalCount extends BaseTransactionalBolt implements ICommitter {
+
+		private static final long serialVersionUID = 4631936079050859468L;
+
+		TransactionAttempt _attempt;
+		BatchOutputCollector _collector;
+
+		int _sum = 0;
+
+		@SuppressWarnings("rawtypes")
+		@Override
+		public void prepare(Map conf, TopologyContext context, BatchOutputCollector collector,
+				TransactionAttempt attempt) {
+			_collector = collector;
+			_attempt = attempt;
+		}
+
+		@Override
+		public void execute(Tuple tuple) {
+			_sum += tuple.getInteger(1);
+		}
+
+		@Override
+		public void finishBatch() {
+			Value val = DATABASE.get(GLOBAL_COUNT_KEY);
+			Value newval;
+			if (val == null || !val.txid.equals(_attempt.getTransactionId())) {
+				newval = new Value();
+				newval.txid = _attempt.getTransactionId();
+				if (val == null) {
+					newval.count = _sum;
+				} else {
+					newval.count = _sum + val.count;
+				}
+				DATABASE.put(GLOBAL_COUNT_KEY, newval);
+			} else {
+				newval = val;
+			}
+			_collector.emit(new Values(_attempt, newval.count));
+		}
+
+		@Override
+		public void declareOutputFields(OutputFieldsDeclarer declarer) {
+			declarer.declare(new Fields("id", "sum"));
+		}
+
+	}
+
+	public static void main(String[] args) throws Exception {
+		MemoryTransactionalSpout spout = new MemoryTransactionalSpout(DATA, new Fields("word"),
+				PARTITION_TAKE_PER_BATCH);
+		TransactionalTopologyBuilder builder = new TransactionalTopologyBuilder("global-count", "spout", spout, 3);
+		builder.setBolt("partial-count", new BatchCount(), 5).noneGrouping("spout");
+		builder.setBolt("sum", new UpdateGlobalCount()).globalGrouping("partial-count");
+
+		LocalCluster cluster = new LocalCluster();
+
+		Config config = new Config();
+		config.setDebug(true);
+		config.setMaxSpoutPending(3);
+
+		cluster.submitTopology("global-count-topology", config, builder.buildTopology());
+
+		Thread.sleep(3000);
+		cluster.shutdown();
+	}
+
 }
