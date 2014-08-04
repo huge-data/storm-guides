@@ -12,6 +12,8 @@
 		<module>storm-bolts</module>
 		<module>storm-spouts</module>
 		<module>storm-start</module>
+		<module>storm-php</module>
+		<module>storm-tutorial</module>
 		<module>storm-topologies</module>
 		<module>storm-transactional</module>
 		<module>storm-demo</module>
