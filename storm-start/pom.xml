@@ -33,6 +33,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		
+		<finalName>storm-start</finalName>
 	</build>
 
 	<repositories>

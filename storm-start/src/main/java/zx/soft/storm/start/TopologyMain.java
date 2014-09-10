@@ -26,7 +26,7 @@ public class TopologyMain {
 
 		// 配置文件
 		Config conf = new Config();
-		conf.put("wordsFile", "words.txt");
+		conf.put("wordsFile", "src/main/resources/words.txt");
 		conf.setDebug(false);
 
 		// 拓扑运行
